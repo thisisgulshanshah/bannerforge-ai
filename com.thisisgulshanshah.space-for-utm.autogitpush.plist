@@ -8,6 +8,7 @@
 
   <key>ProgramArguments</key>
   <array>
+    <string>/bin/zsh</string>
     <string>/Users/thisisgulshanshah/Documents/SPACE FOR UTM/scripts/auto_git_push.sh</string>
   </array>
 
