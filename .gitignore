@@ -11,6 +11,17 @@ build
 # misc
 .DS_Store
 *.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+*.jks
+*.keystore
+id_rsa*
+id_dsa*
+id_ecdsa*
+id_ed25519*
 
 # debug
 npm-debug.log*
@@ -19,7 +30,49 @@ yarn-error.log*
 pnpm-debug.log*
 
 # local env files
+.env
+.env.*
 .env*.local
+!.env.example
+!.env.sample
+
+# secrets and credentials
+secrets/
+secret/
+credentials/
+private/
+*.secret
+*.secrets
+*secret*.json
+*secrets*.json
+*credential*.json
+*credentials*.json
+service-account*.json
+firebase-adminsdk*.json
+google-services.json
+GoogleService-Info.plist
+aws-exports.js
+.aws/
+.ssh/
+.npmrc
+.pypirc
+.netrc
+*.token
+*.tokens
+*.apikey
+*.api-key
+
+# local databases and generated data
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+coverage/
+dist/
+.turbo/
+.cache/
+logs/
+*.log
 
 # vercel
 .vercel

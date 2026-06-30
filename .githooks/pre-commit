@@ -1,0 +1,23 @@
+#!/bin/sh
+set -eu
+
+blocked_files=$(git diff --cached --name-only | grep -Ei '(^|/)(\.env|\.env\..*|.*secret.*|.*credential.*|.*credentials.*|.*token.*|id_rsa.*|id_dsa.*|id_ecdsa.*|id_ed25519.*|.*\.pem|.*\.key|.*\.p12|.*\.pfx|.*\.keystore|.*\.jks|google-services\.json|GoogleService-Info\.plist|service-account.*\.json|firebase-adminsdk.*\.json)$' || true)
+
+if [ -n "$blocked_files" ]; then
+  echo "Blocked commit: possible secret or credential file staged:"
+  echo "$blocked_files"
+  echo "Rename it to a safe example file or add it to .gitignore."
+  exit 1
+fi
+
+for file in $(git diff --cached --name-only --diff-filter=ACM); do
+  [ -f "$file" ] || continue
+
+  if git show ":$file" | grep -Eiq '(sk-[A-Za-z0-9_-]{20,}|ghp_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{20,}|xox[baprs]-[0-9A-Za-z-]{10,})'; then
+    echo "Blocked commit: possible API key/token found in $file"
+    echo "Move the real secret to an ignored .env file and commit only an example."
+    exit 1
+  fi
+done
+
+exit 0
